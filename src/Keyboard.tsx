@@ -1,4 +1,4 @@
-import styles from "./Keyboard.module.css"
+import styles from "./Keyboard.module.css";
 
 const KEYS = [
   "a",
@@ -29,7 +29,17 @@ const KEYS = [
   "z",
 ];
 
-export function Keyboard() {
+type KeyboardProps = {
+  activeLetters: string[];
+  inacticeLetters: string[];
+  addGuessedLetter: (leter: string) => void;
+};
+
+export function Keyboard({
+  activeLetters,
+  inacticeLetters,
+  addGuessedLetter,
+}: KeyboardProps) {
   return (
     <div
       style={{
@@ -39,15 +49,19 @@ export function Keyboard() {
       }}
     >
       {KEYS.map((key) => {
+        const isActice = activeLetters.includes(key);
+        const isInactice = inacticeLetters.includes(key);
         return (
-        <button 
-            // disabled
-            className={`${styles.btn} `} 
+          <button
+            onClick={() => addGuessedLetter(key)}
+            className={`${styles.btn} 
+            ${isActice ? styles.active : ""} 
+            ${isInactice ? styles.inactive : ""}`}
             key={key}
-            >
-                {key}
-            </button>
-        )
+          >
+            {key}
+          </button>
+        );
       })}
     </div>
   );
